@@ -11,13 +11,13 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GetMenuRespDto {
+public class GetMenusRespDto {
 	private Long id;
 	private String name;
 	private Integer price;
 	private List<Long> menuCategoryIds = new ArrayList<>();
 
-	public GetMenuRespDto(@NonNull Menu menu) {
+	public GetMenusRespDto(@NonNull Menu menu) {
 		setId(menu.getId());
 		setName(menu.getName());
 		setPrice(menu.getPrice());

@@ -18,7 +18,9 @@ public class MenuCategoryRestController {
 	private final MenuCategoryRepository menuCategoryRepository;
 
 	@GetMapping
-	public List<MenuCategory> getMenuCategories() {
-		return menuCategoryRepository.findAll();
+	public List<GetMenuCategoriesRespDto> getMenuCategories() {
+		return menuCategoryRepository.findAll().stream()
+				.map(GetMenuCategoriesRespDto::new)
+				.toList();
 	}
 }

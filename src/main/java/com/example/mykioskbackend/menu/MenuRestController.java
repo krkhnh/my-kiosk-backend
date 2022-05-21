@@ -18,8 +18,9 @@ public class MenuRestController {
 	private final MenuRepository menuRepository;
 
 	@GetMapping
-	public List<GetMenuRespDto> getMenus() {
-		List<Menu> menus = menuRepository.findAll();
-		return menus.stream().map(GetMenuRespDto::new).toList();
+	public List<GetMenusRespDto> getMenus() {
+		return menuRepository.findAll().stream()
+				.map(GetMenusRespDto::new)
+				.toList();
 	}
 }
