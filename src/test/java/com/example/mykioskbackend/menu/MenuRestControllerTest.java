@@ -20,8 +20,9 @@ class MenuRestControllerTest extends CommonTest {
 				.andExpect(status().isOk())
 				.andReturn();
 
-		List<Menu> menus = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), new TypeReference<>() {
-		});
-		assertEquals(4, menus.size());
+		List<GetMenuRespDto> getMenuRespDtos = objectMapper.readValue(mvcResult.getResponse().getContentAsString(),
+				new TypeReference<>() {
+				});
+		assertEquals(4, getMenuRespDtos.size());
 	}
 }

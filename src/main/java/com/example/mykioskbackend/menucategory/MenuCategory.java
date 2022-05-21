@@ -17,28 +17,31 @@ import java.util.Set;
 public class MenuCategory {
 	@Id
 	@Column(name = "id", nullable = false)
-	private Integer id;
+	private Long id;
 
 	@Column(name = "name", nullable = false, unique = true)
 	private String name;
 
-	@OneToMany(mappedBy = "menuCategory")
+	@ManyToMany(mappedBy = "menuCategories")
 	@JsonIgnore
-	private final Set<Menu> menuSet = new HashSet<>();
+	private final Set<Menu> menus = new HashSet<>();
 
 	public void addMenu(@NonNull Menu menu) {
-		if (menuSet.contains(menu)) {
+		if (menus.contains(menu)) {
 			return; // 중복 실행 방지
 		}
 
-		menuSet.add(menu);
-		menu.setMenuCategory(this);
+		menus.add(menu);
+		menu.addMenuCategory(this);
 	}
 
-	@SuppressWarnings("unused")
 	public void removeMenu(@NonNull Menu menu) {
-		menuSet.remove(menu);
-		menu.setMenuCategory(null);
+		if (!menus.contains(menu)) {
+			return; // 중복 실행 방지
+		}
+
+		menus.remove(menu);
+		menu.removeMenuCategory(this);
 	}
 
 }

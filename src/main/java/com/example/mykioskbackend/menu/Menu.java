@@ -3,9 +3,13 @@ package com.example.mykioskbackend.menu;
 import com.example.mykioskbackend.menucategory.MenuCategory;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "MENU")
@@ -23,23 +27,32 @@ public class Menu {
 	@Column(name = "price", nullable = false)
 	private Integer price;
 
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "MENU_CATEGORY_ID", referencedColumnName = "id", nullable = false)
+	@ManyToMany
+	@JoinTable(name = "`MENU-MENU_CATEGORY`",
+			joinColumns = @JoinColumn(name = "MENU_ID"),
+			inverseJoinColumns = @JoinColumn(name = "MENU_CATEGORY_ID"))
 	@JsonIgnore
-	private MenuCategory menuCategory;
+	private final Set<MenuCategory> menuCategories = new HashSet<>();
 
-	public Integer getMenuCategoryId() {
-		return menuCategory.getId();
+	public List<Long> getMenuCategoryIds() {
+		return menuCategories.stream().map(MenuCategory::getId).toList();
 	}
 
-	public void setMenuCategory(MenuCategory menuCategory) {
-		if (this.menuCategory == menuCategory) {
+	public void addMenuCategory(@NonNull MenuCategory menuCategory) {
+		if (menuCategories.contains(menuCategory)) {
 			return; // 중복 실행 방지
 		}
 
-		this.menuCategory = menuCategory;
-		if (menuCategory != null) {
-			menuCategory.addMenu(this);
+		menuCategories.add(menuCategory);
+		menuCategory.addMenu(this);
+	}
+
+	public void removeMenuCategory(@NonNull MenuCategory menuCategory) {
+		if (!menuCategories.contains(menuCategory)) {
+			return; // 중복 실행 방지
 		}
+
+		menuCategories.remove(menuCategory);
+		menuCategory.removeMenu(this);
 	}
 }
