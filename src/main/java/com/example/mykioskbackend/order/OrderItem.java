@@ -31,16 +31,16 @@ public class OrderItem {
 	@Column(name = "MENU_ID", nullable = false)
 	private Long menuId;
 
-	@Column(name = "QTY", nullable = false)
-	private Short qty;
+	@Column(name = "QUANTITY", nullable = false)
+	private Short quantity;
 
-	@Column(name = "UNIT_PRICE", nullable = false)
-	private Integer unitPrice;
+	@Column(name = "MENU_PRICE", nullable = false)
+	private Integer menuPrice;
 
 	public OrderItem(@NonNull OrderItemDto orderItemDto) {
 		menuId = orderItemDto.getMenuId();
-		qty = orderItemDto.getQty();
-		unitPrice = orderItemDto.getUnitPrice();
+		quantity = orderItemDto.getQuantity();
+		menuPrice = orderItemDto.getMenuPrice();
 	}
 
 	@SuppressWarnings("unused")

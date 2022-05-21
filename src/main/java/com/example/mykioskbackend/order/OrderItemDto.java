@@ -13,7 +13,7 @@ public class OrderItemDto {
 	@NotNull
 	private Long menuId;
 	@NotNull
-	private Integer unitPrice;
+	private Integer menuPrice;
 	@NotNull
-	private Short qty;
+	private Short quantity;
 }

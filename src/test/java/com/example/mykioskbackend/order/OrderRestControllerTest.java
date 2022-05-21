@@ -31,7 +31,7 @@ class OrderRestControllerTest extends CommonTest {
 		OrderItem orderItem = order.getOrderItems().get(0);
 		assertEquals(order, orderItem.getOrder());
 		assertEquals(postOrdersDto.getOrderItems().get(0).getMenuId(), orderItem.getMenu().getId());
-		assertEquals(postOrdersDto.getOrderItems().get(0).getUnitPrice(), orderItem.getMenu().getPrice());
+		assertEquals(postOrdersDto.getOrderItems().get(0).getMenuPrice(), orderItem.getMenu().getPrice());
 	}
 
 	@Test
