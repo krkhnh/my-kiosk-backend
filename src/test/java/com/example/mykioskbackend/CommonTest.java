@@ -1,5 +1,6 @@
 package com.example.mykioskbackend;
 
+import com.example.mykioskbackend.menu.MenuRepository;
 import com.example.mykioskbackend.order.OrderRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,11 @@ public abstract class CommonTest {
 	protected ObjectMapper objectMapper;
 
 	@Autowired
+	protected EntityManager entityManager;
+	@Autowired
 	protected OrderRepository orderRepository;
 	@Autowired
-	protected EntityManager entityManager;
+	protected MenuRepository menuRepository;
 
 	protected ResultActions performPostOrders(@NonNull String requestBody) throws Exception {
 		return mockMvc.perform(post("/orders")

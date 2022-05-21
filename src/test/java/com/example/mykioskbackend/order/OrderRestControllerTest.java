@@ -2,9 +2,7 @@ package com.example.mykioskbackend.order;
 
 import com.example.mykioskbackend.CommonTest;
 import com.example.mykioskbackend.menu.Menu;
-import com.example.mykioskbackend.menu.MenuRepository;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,9 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Rollback(false)
 class OrderRestControllerTest extends CommonTest {
-
-	@Autowired
-	private MenuRepository menuRepository;
 
 	@Test
 	void postOrders__201() throws Exception {

@@ -18,7 +18,6 @@ public class OrderRestController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public void postOrders(@RequestBody @Valid PostOrdersDto postOrdersDto) {
-		Order order = new Order(postOrdersDto);
-		orderRepository.save(order);
+		orderRepository.save(new Order(postOrdersDto));
 	}
 }
