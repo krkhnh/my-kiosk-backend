@@ -2,10 +2,9 @@ package com.example.mykioskbackend.menu;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -14,13 +13,21 @@ import java.util.List;
 @CrossOrigin
 @RequiredArgsConstructor
 public class MenuRestController {
-	@NonNull
-	private final MenuRepository menuRepository;
+    @NonNull
+    private final MenuRepository menuRepository;
 
-	@GetMapping
-	public List<GetMenusRespDto> getMenus() {
-		return menuRepository.findAll().stream()
-				.map(GetMenusRespDto::new)
-				.toList();
-	}
+    @GetMapping("/{id}")
+    public GetMenusRespDto getMenusId(@PathVariable Long id) {
+        Menu menu = menuRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return new GetMenusRespDto(menu);
+    }
+
+    @GetMapping
+    public List<GetMenusRespDto> getMenus(@RequestParam(required = false, defaultValue = "") List<Long> ids) {
+        List<Menu> menus = ids.isEmpty() ? menuRepository.findAll() : menuRepository.findAllById(ids);
+        return menus.stream()
+                .map(GetMenusRespDto::new)
+                .toList();
+    }
 }
