@@ -46,8 +46,8 @@ class MenuRestControllerTest extends CommonTest {
     }
 
     @Test
-    void getMenus__2ids__200() throws Exception {
-        MvcResult mvcResult = performGetMenus(new String[]{"1", "3"})
+    void getMenus__menuCategoryId__200() throws Exception {
+        MvcResult mvcResult = performGetMenus("1")
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -60,7 +60,7 @@ class MenuRestControllerTest extends CommonTest {
                 .map(GetMenusRespDto::getId)
                 .collect(Collectors.toSet());
         assertTrue(menuIds.contains(1L));
-        assertTrue(menuIds.contains(3L));
+        assertTrue(menuIds.contains(2L));
     }
 
 }

@@ -24,10 +24,8 @@ public class MenuCategoryRestController {
     }
 
     @GetMapping
-    public List<GetMenuCategoriesRespDto> getMenuCategories(
-            @RequestParam(required = false, defaultValue = "") List<Long> ids) {
-        List<MenuCategory> menuCategories =
-                ids.isEmpty() ? menuCategoryRepository.findAll() : menuCategoryRepository.findAllById(ids);
+    public List<GetMenuCategoriesRespDto> getMenuCategories() {
+        List<MenuCategory> menuCategories = menuCategoryRepository.findAll();
         return menuCategories.stream()
                 .map(GetMenuCategoriesRespDto::new)
                 .toList();

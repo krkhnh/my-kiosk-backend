@@ -42,10 +42,10 @@ public abstract class CommonTest {
                 .andDo(print());
     }
 
-    protected ResultActions performGetMenus(String[] ids) throws Exception {
+    protected ResultActions performGetMenus(String menuCategoryId) throws Exception {
         MockHttpServletRequestBuilder getMenusBuilder = get("/menus");
-        if (ids != null) {
-            getMenusBuilder = getMenusBuilder.queryParam("ids", ids);
+        if (menuCategoryId != null) {
+            getMenusBuilder = getMenusBuilder.queryParam("menuCategoryId", menuCategoryId);
         }
         return mockMvc.perform(getMenusBuilder)
                 .andDo(print());
@@ -56,12 +56,8 @@ public abstract class CommonTest {
                 .andDo(print());
     }
 
-    protected ResultActions performGetMenuCategories(String[] ids) throws Exception {
-        MockHttpServletRequestBuilder getMenusBuilder = get("/menuCategories");
-        if (ids != null) {
-            getMenusBuilder = getMenusBuilder.queryParam("ids", ids);
-        }
-        return mockMvc.perform(getMenusBuilder)
+    protected ResultActions performGetMenuCategories() throws Exception {
+        return mockMvc.perform(get("/menuCategories"))
                 .andDo(print());
     }
 

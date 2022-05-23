@@ -6,11 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class MenuCategoryRestControllerTest extends CommonTest {
@@ -36,7 +33,7 @@ class MenuCategoryRestControllerTest extends CommonTest {
 
     @Test
     void getMenuCategories__200() throws Exception {
-        MvcResult mvcResult = performGetMenuCategories(null)
+        MvcResult mvcResult = performGetMenuCategories()
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -45,22 +42,4 @@ class MenuCategoryRestControllerTest extends CommonTest {
                 });
         assertEquals(2, getMenuCategoriesRespDtos.size());
     }
-
-    @Test
-    void getMenuCategories__2ids__200() throws Exception {
-        MvcResult mvcResult = performGetMenuCategories(new String[]{"1"})
-                .andExpect(status().isOk())
-                .andReturn();
-
-        List<GetMenuCategoriesRespDto> getMenuCategoriesRespDtos = objectMapper.readValue(
-                mvcResult.getResponse().getContentAsString(), new TypeReference<>() {
-                });
-        assertEquals(1, getMenuCategoriesRespDtos.size());
-
-        Set<Long> menuIds = getMenuCategoriesRespDtos.stream()
-                .map(GetMenuCategoriesRespDto::getId)
-                .collect(Collectors.toSet());
-        assertTrue(menuIds.contains(1L));
-    }
-
 }
