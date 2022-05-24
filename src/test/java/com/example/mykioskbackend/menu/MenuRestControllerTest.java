@@ -2,15 +2,14 @@ package com.example.mykioskbackend.menu;
 
 import com.example.mykioskbackend.CommonTest;
 import com.fasterxml.jackson.core.type.TypeReference;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class MenuRestControllerTest extends CommonTest {
@@ -47,20 +46,19 @@ class MenuRestControllerTest extends CommonTest {
 
     @Test
     void getMenus__menuCategoryId__200() throws Exception {
-        MvcResult mvcResult = performGetMenus("1")
-                .andExpect(status().isOk())
-                .andReturn();
+        for (Long menuCategoryId : Arrays.asList(1L, 2L)) {
+            MvcResult mvcResult = performGetMenus(menuCategoryId.toString())
+                    .andExpect(status().isOk())
+                    .andReturn();
 
-        List<GetMenusRespDto> getMenusRespDtos = objectMapper.readValue(mvcResult.getResponse().getContentAsString(),
-                new TypeReference<>() {
-                });
-        assertEquals(2, getMenusRespDtos.size());
-
-        Set<Long> menuIds = getMenusRespDtos.stream()
-                .map(GetMenusRespDto::getId)
-                .collect(Collectors.toSet());
-        assertTrue(menuIds.contains(1L));
-        assertTrue(menuIds.contains(2L));
+            List<GetMenusRespDto> getMenusRespDtos = objectMapper.readValue(
+                    mvcResult.getResponse().getContentAsString(),
+                    new TypeReference<>() {
+                    });
+            for (GetMenusRespDto getMenusRespDto : getMenusRespDtos) {
+                Assertions.assertThat(getMenusRespDto.getMenuCategoryIds()).contains(menuCategoryId);
+            }
+        }
     }
 
 }
